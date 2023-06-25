@@ -1,16 +1,15 @@
 const { Pool } = require('pg');
 const format = require('pg-format');
+require('dotenv').config();
 
-//HAY QUE CAMBIARLO A VARIABLES DE ENTORNO
 const pool = new Pool({
-    user: "postgres",
+    user: process.env.DB_USER,
     host: "localhost",
-    password: "postgres",
-    database: "joyas",
-    port: 5432,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
     allowExitOnIdle: true
 });
-// localhost:3000/joyas?limits=3&page=2&order_by=stock_ASC
 const getJoyas = async ({limits = 10, order_by="precio_ASC", page = 1}) => {
     const [campo, direccion] = order_by.split("_");
     const offset = (page - 1) * limits;
